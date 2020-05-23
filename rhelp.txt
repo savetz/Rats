@@ -1,0 +1,94 @@
+RATS!
+By Kevin Komix
+Original Program - November 1987
+Version 2.0 - 4/1/89
+For Weird City BBS
+
+THIS PROGRAM IS COPYRIGHT (C) 1989 by
+the author.
+
+------------------------------------
+
+As you wander around Weird City, a
+kindly old man approaches you. He
+invites you to earn $500 by taking
+part in a simple market research
+study.
+
+"Sure," you say..
+                  like a fool.
+
+-----------------------------------
+
+The kindly old man grabs you by the
+arm and pulls you into his lab,
+through a door marked:
+                 LAB
+
+The old man straps you to a table!
+He introduces himself as the evil
+Profesor Klystron!! (Arrrrgghh!)
+
+He injects into you a mysterious
+liquid.
+
+-----------------------------------
+
+As you look about the room, everything
+seems to be growing larger and larger!
+You soon realise that you are
+shrinking! (Screams of terror!)
+
+You notice that you've also grown a
+tail.
+
+The evil Professor picks you up
+and places you in a tiny doorway. He
+pushes you through and the door slams
+shut behind you.
+
+You crave cheese.
+
+-----------------------------------
+
+You are a RAT!
+You are a RAT in a maze!
+The only way to return to your former
+self is to find the exit. If this is
+accomplished, you will be given $500
+Weird Bucks for your efforts.
+
+You will soon be shown a rat's-eye
+view from inside the maze. Your
+position inside the maze will be
+shown in the form of X and Y.
+Your goal will also be given.
+
+You may walk in any direction where
+there is an open corridor with the
+†∆†orward command.
+
+You may turn †Ã†eft, †“†ight, or
+†¡†round with these commands. Note
+that with these commands you only
+turn; you do not actually change
+your X/Y position in the maze. (You
+may walk †∆†orward to do this.
+
+It may be a good idea to map the maze.
+
+Other commands are Re†ƒ†isplay, if the
+screen gets messy, and †—†uit, for
+when your mind gets messy.
+
+------------------------------------
+
+Version 2 supports ASCII as well at
+ATASCII graphics, and includes a
+couple of new goodies. Hope you
+enjoy!!
+
+------------------------------------
+
+Good Luck, Sucker!
+
