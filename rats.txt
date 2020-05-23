@@ -1,0 +1,423 @@
+1 REM RATS by Kay Savetz, circa 1988. All of the ATASCII characters in this
+2 REM will be unreadable in this ASCII listing, sorry.
+10 POKE 82,0:FI=6000:IN=5005:ZAP=100
+11 ASCII=2:ATASCII=1
+12 VIDEOMODE=1:REM †”≈‘†÷…ƒ≈œÕœƒ≈†‘œ†1†∆œ“†¡‘¡”√……†œ“†2†∆œ“†¡”√……°
+20 DIM F$(20),D$(20),M(21,21),C$(1),INFO$(15),LINE$(200)
+40 DIR=1:X=2:Y=1:XGOAL=18:YGOAL=3
+98 ? "}":? "                 †“·ÙÛ°†":? "              By Kevin Komix":? "             Ver 2.0 (c) 1989":? 
+99 ? "Hold on, Ratface!";:GOSUB ZAP:GOTO 101
+100 FOR D=1 TO 10:LINE$(D*20-19,D*20)="                    ":NEXT D:RETURN 
+101 CLOSE #1:OPEN #1,4,0,"D:RATDATA":FOR D=0 TO 21:FOR E=0 TO 21:GET #1,C:M(D,E)=C:NEXT E:NEXT D:INPUT #1;LINE$:CLOSE #1
+102 ? :? "}":? "   †“·ÙÛ°†":? :? LINE$
+103 MAP=0:? "Do ya need instructions?";:GOSUB IN:? C$:? 
+104 IF C$<>"Y" THEN 107
+105 F$="RHELP":GOSUB 5000
+106 ? :? "Bash a key to begin!";:GOSUB IN
+107 IF VIDEOMODE=ASCII THEN GOSUB ZAP:IF DIR=1 THEN 140
+108 IF VIDEOMODE=ASCII AND DIR<>1 THEN 170
+109 ? "}":? "   †“·ÙÛ°†":? 
+110 ? " "
+120 FOR D=1 TO 9:? "          ":NEXT D
+130 ? " "
+134 ? "Youare facing: Your  Position:x=     y="
+135 ? "Your goal is:x=     y=";:IF XGOAL<10 THEN ? "0";
+136 ? XGOAL;"";:IF YGOAL<10 THEN ? "0";
+137 ? YGOAL;"";
+138 ? "Turn †Ã†eftTurn †“†ightTurn †¡†roundWalk †∆†orwardRe†ƒ†isplay"
+139 IF VIDEOMODE=ATASCII THEN GOSUB ZAP:? "";:IF DIR<>1 THEN 170
+140 D=0:IF M(X-1,Y)=1 AND M(X+1,Y)=1 AND M(X,Y+1)=1 THEN F$="F1FLR"
+141 IF M(X-1,Y)=1 AND M(X+1,Y)=1 AND M(X,Y+1)=0 THEN F$="F1LR":D=1
+142 IF M(X-1,Y)=0 AND M(X+1,Y)=1 AND M(X,Y+1)=1 THEN F$="F1FR"
+143 IF M(X-1,Y)=0 AND M(X+1,Y)=0 AND M(X,Y+1)=1 THEN F$="F1F"
+144 IF M(X-1,Y)=1 AND M(X+1,Y)=0 AND M(X,Y+1)=1 THEN F$="F1FL"
+145 IF M(X-1,Y)=1 AND M(X+1,Y)=0 AND M(X,Y+1)=0 THEN F$="F1L":D=1
+146 IF M(X-1,Y)=0 AND M(X+1,Y)=0 AND M(X,Y+1)=0 THEN F$="F1N":D=1
+147 IF M(X-1,Y)=0 AND M(X+1,Y)=1 AND M(X,Y+1)=0 THEN F$="F1R":D=1
+148 GOSUB FI:IF D=1 THEN 400
+150 IF M(X-1,Y+1)=1 AND M(X+1,Y+1)=1 AND M(X,Y+2)=1 THEN F$="F2FLR"
+151 IF M(X-1,Y+1)=1 AND M(X+1,Y+1)=1 AND M(X,Y+2)=0 THEN F$="F2LR":D=1
+152 IF M(X-1,Y+1)=0 AND M(X+1,Y+1)=1 AND M(X,Y+2)=1 THEN F$="F2FR"
+153 IF M(X-1,Y+1)=0 AND M(X+1,Y+1)=0 AND M(X,Y+2)=1 THEN F$="F2F"
+154 IF M(X-1,Y+1)=1 AND M(X+1,Y+1)=0 AND M(X,Y+2)=1 THEN F$="F2FL"
+155 IF M(X-1,Y+1)=1 AND M(X+1,Y+1)=0 AND M(X,Y+2)=0 THEN F$="F2L":D=1
+156 IF M(X-1,Y+1)=0 AND M(X+1,Y+1)=0 AND M(X,Y+2)=0 THEN F$="F2N":D=1
+157 IF M(X-1,Y+1)=0 AND M(X+1,Y+1)=1 AND M(X,Y+2)=0 THEN F$="F2R":D=1
+159 GOSUB FI:IF D=1 THEN 400
+160 IF M(X-1,Y+2)=1 AND M(X+1,Y+2)=1 AND M(X,Y+3)=1 THEN F$="F3FLR"
+161 IF M(X-1,Y+2)=1 AND M(X+1,Y+2)=1 AND M(X,Y+3)=0 THEN F$="F3LR"
+162 IF M(X-1,Y+2)=0 AND M(X+1,Y+2)=1 AND M(X,Y+3)=1 THEN F$="F3FR"
+163 IF M(X-1,Y+2)=0 AND M(X+1,Y+2)=0 AND M(X,Y+3)=1 THEN F$="F3F"
+164 IF M(X-1,Y+2)=1 AND M(X+1,Y+2)=0 AND M(X,Y+3)=1 THEN F$="F3FL"
+165 IF M(X-1,Y+2)=1 AND M(X+1,Y+2)=0 AND M(X,Y+3)=0 THEN F$="F3L"
+166 IF M(X-1,Y+2)=0 AND M(X+1,Y+2)=0 AND M(X,Y+3)=0 THEN F$="F3N"
+167 IF M(X-1,Y+2)=0 AND M(X+1,Y+2)=1 AND M(X,Y+3)=0 THEN F$="F3R"
+169 GOSUB FI:GOTO 400
+170 D=0:IF DIR<>2 THEN 239
+171 D=0:IF M(X,Y+1)=1 AND M(X,Y-1)=1 AND M(X+1,Y)=1 THEN F$="F1FLR"
+172 IF M(X,Y+1)=1 AND M(X,Y-1)=1 AND M(X+1,Y)=0 THEN F$="F1LR":D=1
+173 IF M(X,Y+1)=0 AND M(X,Y-1)=1 AND M(X+1,Y)=1 THEN F$="F1FR"
+174 IF M(X,Y+1)=0 AND M(X,Y-1)=0 AND M(X+1,Y)=1 THEN F$="F1F"
+175 IF M(X,Y+1)=1 AND M(X,Y-1)=0 AND M(X+1,Y)=1 THEN F$="F1FL"
+176 IF M(X,Y+1)=1 AND M(X,Y-1)=0 AND M(X+1,Y)=0 THEN F$="F1L":D=1
+177 IF M(X,Y+1)=0 AND M(X,Y-1)=0 AND M(X+1,Y)=0 THEN F$="F1N":D=1
+178 IF M(X,Y+1)=0 AND M(X,Y-1)=1 AND M(X+1,Y)=0 THEN F$="F1R":D=1
+179 GOSUB FI:IF D=1 THEN 400
+180 IF M(X+1,Y+1)=1 AND M(X+1,Y-1)=1 AND M(X+2,Y)=1 THEN F$="F2FLR"
+181 IF M(X+1,Y+1)=1 AND M(X+1,Y-1)=1 AND M(X+2,Y)=0 THEN F$="F2LR":D=1
+182 IF M(X+1,Y+1)=0 AND M(X+1,Y-1)=1 AND M(X+2,Y)=1 THEN F$="F2FR"
+183 IF M(X+1,Y+1)=0 AND M(X+1,Y-1)=0 AND M(X+2,Y)=1 THEN F$="F2F"
+184 IF M(X+1,Y+1)=1 AND M(X+1,Y-1)=0 AND M(X+2,Y)=1 THEN F$="F2FL"
+185 IF M(X+1,Y+1)=1 AND M(X+1,Y-1)=0 AND M(X+2,Y)=0 THEN F$="F2L":D=1
+186 IF M(X+1,Y+1)=0 AND M(X+1,Y-1)=0 AND M(X+2,Y)=0 THEN F$="F2N":D=1
+187 IF M(X+1,Y+1)=0 AND M(X+1,Y-1)=1 AND M(X+2,Y)=0 THEN F$="F2R":D=1
+189 GOSUB FI:IF D=1 THEN 400
+190 IF M(X+2,Y+1)=1 AND M(X+2,Y-1)=1 AND M(X+3,Y)=1 THEN F$="F3FLR"
+191 IF M(X+2,Y+1)=1 AND M(X+2,Y-1)=1 AND M(X+3,Y)=0 THEN F$="F3LR"
+192 IF M(X+2,Y+1)=0 AND M(X+2,Y-1)=1 AND M(X+3,Y)=1 THEN F$="F3FR"
+193 IF M(X+2,Y+1)=0 AND M(X+2,Y-1)=0 AND M(X+3,Y)=1 THEN F$="F3F"
+194 IF M(X+2,Y+1)=1 AND M(X+2,Y-1)=0 AND M(X+3,Y)=1 THEN F$="F3FL"
+195 IF M(X+2,Y+1)=1 AND M(X+2,Y-1)=0 AND M(X+3,Y)=0 THEN F$="F3L"
+196 IF M(X+2,Y+1)=0 AND M(X+2,Y-1)=0 AND M(X+3,Y)=0 THEN F$="F3N"
+197 IF M(X+2,Y+1)=0 AND M(X+2,Y-1)=1 AND M(X+3,Y)=0 THEN F$="F3R"
+199 GOSUB FI:GOTO 400
+239 IF DIR<>3 THEN 370
+240 D=0:IF M(X+1,Y)=1 AND M(X-1,Y)=1 AND M(X,Y-1)=1 THEN F$="F1FLR"
+241 IF M(X+1,Y)=1 AND M(X-1,Y)=1 AND M(X,Y-1)=0 THEN F$="F1LR":D=1
+242 IF M(X+1,Y)=0 AND M(X-1,Y)=1 AND M(X,Y-1)=1 THEN F$="F1FR"
+243 IF M(X+1,Y)=0 AND M(X-1,Y)=0 AND M(X,Y-1)=1 THEN F$="F1F"
+244 IF M(X+1,Y)=1 AND M(X-1,Y)=0 AND M(X,Y-1)=1 THEN F$="F1FL"
+245 IF M(X+1,Y)=1 AND M(X-1,Y)=0 AND M(X,Y-1)=0 THEN F$="F1L":D=1
+246 IF M(X+1,Y)=0 AND M(X-1,Y)=0 AND M(X,Y-1)=0 THEN F$="F1N":D=1
+247 IF M(X+1,Y)=0 AND M(X-1,Y)=1 AND M(X,Y-1)=0 THEN F$="F1R":D=1
+249 GOSUB FI:IF D=1 THEN 400
+250 IF M(X+1,Y-1)=1 AND M(X-1,Y-1)=1 AND M(X,Y-2)=1 THEN F$="F2FLR"
+251 IF M(X+1,Y-1)=1 AND M(X-1,Y-1)=1 AND M(X,Y-2)=0 THEN F$="F2LR":D=1
+252 IF M(X+1,Y-1)=0 AND M(X-1,Y-1)=1 AND M(X,Y-2)=1 THEN F$="F2FR"
+253 IF M(X+1,Y-1)=0 AND M(X-1,Y-1)=0 AND M(X,Y-2)=1 THEN F$="F2F"
+254 IF M(X+1,Y-1)=1 AND M(X-1,Y-1)=0 AND M(X,Y-2)=1 THEN F$="F2FL"
+255 IF M(X+1,Y-1)=1 AND M(X-1,Y-1)=0 AND M(X,Y-2)=0 THEN F$="F2L":D=1
+256 IF M(X+1,Y-1)=0 AND M(X-1,Y-1)=0 AND M(X,Y-2)=0 THEN F$="F2N":D=1
+257 IF M(X+1,Y-1)=0 AND M(X-1,Y-1)=1 AND M(X,Y-2)=0 THEN F$="F2R":D=1
+259 GOSUB FI:IF D=1 THEN 400
+260 IF M(X+1,Y-2)=1 AND M(X-1,Y-2)=1 AND M(X,Y-3)=1 THEN F$="F3FLR"
+261 IF M(X+1,Y-2)=1 AND M(X-1,Y-2)=1 AND M(X,Y-3)=0 THEN F$="F3LR"
+262 IF M(X+1,Y-2)=0 AND M(X-1,Y-2)=1 AND M(X,Y-3)=1 THEN F$="F3FR"
+263 IF M(X+1,Y-2)=0 AND M(X-1,Y-2)=0 AND M(X,Y-3)=1 THEN F$="F3F"
+264 IF M(X+1,Y-2)=1 AND M(X-1,Y-2)=0 AND M(X,Y-3)=1 THEN F$="F3FL"
+265 IF M(X+1,Y-2)=1 AND M(X-1,Y-2)=0 AND M(X,Y-3)=0 THEN F$="F3L"
+266 IF M(X+1,Y-2)=0 AND M(X-1,Y-2)=0 AND M(X,Y-3)=0 THEN F$="F3N"
+267 IF M(X+1,Y-2)=0 AND M(X-1,Y-2)=1 AND M(X,Y-3)=0 THEN F$="F3R"
+269 GOSUB FI:GOTO 400
+370 D=0:IF M(X,Y-1)=1 AND M(X,Y+1)=1 AND M(X-1,Y)=1 THEN F$="F1FLR"
+371 IF M(X,Y-1)=1 AND M(X,Y+1)=1 AND M(X-1,Y)=0 THEN F$="F1LR":D=1
+372 IF M(X,Y-1)=0 AND M(X,Y+1)=1 AND M(X-1,Y)=1 THEN F$="F1FR"
+373 IF M(X,Y-1)=0 AND M(X,Y+1)=0 AND M(X-1,Y)=1 THEN F$="F1F"
+374 IF M(X,Y-1)=1 AND M(X,Y+1)=0 AND M(X-1,Y)=1 THEN F$="F1FL"
+375 IF M(X,Y-1)=1 AND M(X,Y+1)=0 AND M(X-1,Y)=0 THEN F$="F1L":D=1
+376 IF M(X,Y-1)=0 AND M(X,Y+1)=0 AND M(X-1,Y)=0 THEN F$="F1N":D=1
+377 IF M(X,Y-1)=0 AND M(X,Y+1)=1 AND M(X-1,Y)=0 THEN F$="F1R":D=1
+379 GOSUB FI:IF D=1 THEN 400
+380 IF M(X-1,Y-1)=1 AND M(X-1,Y+1)=1 AND M(X-2,Y)=1 THEN F$="F2FLR"
+381 IF M(X-1,Y-1)=1 AND M(X-1,Y+1)=1 AND M(X-2,Y)=0 THEN F$="F2LR":D=1
+382 IF M(X-1,Y-1)=0 AND M(X-1,Y+1)=1 AND M(X-2,Y)=1 THEN F$="F2FR"
+383 IF M(X-1,Y-1)=0 AND M(X-1,Y+1)=0 AND M(X-2,Y)=1 THEN F$="F2F"
+384 IF M(X-1,Y-1)=1 AND M(X-1,Y+1)=0 AND M(X-2,Y)=1 THEN F$="F2FL"
+385 IF M(X-1,Y-1)=1 AND M(X-1,Y+1)=0 AND M(X-2,Y)=0 THEN F$="F2L":D=1
+386 IF M(X-1,Y-1)=0 AND M(X-1,Y+1)=0 AND M(X-2,Y)=0 THEN F$="F2N":D=1
+387 IF M(X-1,Y-1)=0 AND M(X-1,Y+1)=1 AND M(X-2,Y)=0 THEN F$="F2R":D=1
+389 GOSUB FI:IF D=1 THEN 400
+390 IF M(X-2,Y-1)=1 AND M(X-2,Y+1)=1 AND M(X-3,Y)=1 THEN F$="F3FLR"
+391 IF M(X-2,Y-1)=1 AND M(X-2,Y+1)=1 AND M(X-3,Y)=0 THEN F$="F3LR"
+392 IF M(X-2,Y-1)=0 AND M(X-2,Y+1)=1 AND M(X-3,Y)=1 THEN F$="F3FR"
+393 IF M(X-2,Y-1)=0 AND M(X-2,Y+1)=0 AND M(X-3,Y)=1 THEN F$="F3F"
+394 IF M(X-2,Y-1)=1 AND M(X-2,Y+1)=0 AND M(X-3,Y)=1 THEN F$="F3FL"
+395 IF M(X-2,Y-1)=1 AND M(X-2,Y+1)=0 AND M(X-3,Y)=0 THEN F$="F3L"
+396 IF M(X-2,Y-1)=0 AND M(X-2,Y+1)=0 AND M(X-3,Y)=0 THEN F$="F3N"
+397 IF M(X-2,Y-1)=0 AND M(X-2,Y+1)=1 AND M(X-3,Y)=0 THEN F$="F3R"
+399 GOSUB FI
+400 IF VIDEOMODE=ASCII THEN 1000
+401 FOR EE=1 TO 9:PRINT "";LINE$(EE*10-9,EE*10):NEXT EE:? "";
+402 IF DIR=1 THEN ? "North";
+404 IF DIR=2 THEN ? "East ";
+406 IF DIR=3 THEN ? "South";
+408 IF DIR=4 THEN ? "West ";
+410 ? "";
+415 IF X<10 THEN ? "0";
+420 ? X;"";:IF Y<10 THEN ? "0";
+425 ? Y:? "";
+426 IF XGOAL=X AND YGOAL=Y THEN 850
+427 IF MAP=0 AND INT(RND(1)*100)+1=76 THEN 2000
+430 ? "Command:  ~";:GOSUB IN:? C$;
+435 IF C$="#" THEN 2000
+440 IF C$<>"L" AND C$<>"R" AND C$<>"A" AND C$<>"F" AND C$<>"Q" AND C$<>"@" AND C$<>"D" THEN ? "~~~~~~~~~~";:GOTO 430
+450 IF C$="Q" THEN END :REM †¬¡√À†‘œ†◊≈…“ƒ†√…‘Ÿ†
+460 IF C$="R" THEN DIR=DIR+1:IF DIR=5 THEN DIR=1
+461 IF C$="R" THEN ? :? "";:GOTO 139
+462 IF C$="D" THEN 107
+470 IF C$="L" THEN DIR=DIR-1:IF DIR=0 THEN DIR=4
+471 IF C$="L" THEN ? :? "";:GOTO 139
+480 IF C$="A" THEN DIR=DIR+2:IF DIR>4 THEN DIR=DIR-4
+481 IF C$="A" THEN ? :? "";:GOTO 139
+490 IF C$<>"F" THEN 600
+500 IF DIR=1 AND M(X,Y+1)=1 THEN Y=Y+1:? :? "";:GOTO 139
+505 IF DIR=1 AND M(X,Y+1)=0 THEN ? " *OUCH!*˝";:FOR D=1 TO 300:NEXT D:? "~~~~~~~~~~~~~~~~~~";:GOTO 430
+510 IF DIR=2 AND M(X+1,Y)=1 THEN X=X+1:? :? "";:GOTO 139
+515 IF DIR=2 AND M(X+1,Y)=0 THEN ? " *OUCH!*˝";:FOR D=1 TO 300:NEXT D:? "~~~~~~~~~~~~~~~~~~";:GOTO 430
+520 IF DIR=3 AND M(X,Y-1)=1 THEN Y=Y-1:? :? "";:GOTO 139
+525 IF DIR=3 AND M(X,Y-1)=0 THEN ? " *OUCH!*˝";:FOR D=1 TO 300:NEXT D:? "~~~~~~~~~~~~~~~~~~";:GOTO 430
+530 IF DIR=4 AND M(X-1,Y)=1 THEN X=X-1:? :? "";:GOTO 139
+535 IF DIR=4 AND M(X-1,Y)=0 THEN ? " *OUCH!*˝";:FOR D=1 TO 300:NEXT D:? "~~~~~~~~~~~~~~~~~~";:GOTO 430
+600 ? "}†“·ÙÛ°†’‰·ÙÂ†"
+602 IF VIDEOMODE=ASCII THEN ? "Sorry, Must be in ATASCII mode to use this function.":GOTO 102
+610 ? "Pass: ";:GOSUB 5008
+620 IF F$<>"USELESS" THEN ? "IDIOT!":GOTO 102
+630 ? "OK.":? :? 
+640 ? ""
+650 FOR D=1 TO 20:? "|                    |":NEXT D:? ""
+660 ? "PLEASE WAIT            ";
+670 FOR D=0 TO 21:FOR E=0 TO 21:M(D,E)=0:NEXT E:? "~~";21-D;:NEXT D:? "ú";
+675 ? "Draw with +,*,-,=. Hit S to Save.";
+676 ? "";
+680 ? "”∆";:X=2:Y=1:? "";
+690 GOSUB IN:IF C$<>"-" AND C$<>"=" AND C$<>"+" AND C$<>"*" AND C$<>"S" THEN 690
+700 IF C$="=" AND Y=1 THEN 690
+710 IF C$="-" AND Y=20 THEN 690
+720 IF C$="*" AND X=20 THEN 690
+730 IF C$="+" AND X=1 THEN 690
+740 IF C$="-" THEN ? "";:M(X,Y)=1:Y=Y+1:GOTO 690
+750 IF C$="=" THEN ? "";:M(X,Y)=1:Y=Y-1:GOTO 690
+760 IF C$="*" THEN ? "";:M(X,Y)=1:X=X+1:GOTO 690
+770 IF C$="+" THEN ? "";:M(X,Y)=1:X=X-1:GOTO 690
+780 IF C$="S" AND M(18,3)<>1 THEN 690
+781 ? "}ENTER ONE LINE ABOUT THE MAZE-":? "IE.: 'THIS MAZE BY S. FINCHLEY'":? "OR 'THE WORLDS HARDEST MAZE!"
+782 ? :? ">";:INPUT #16;LINE$
+785 ? "}..SAVING DATA.. HOLD..              ";
+790 CLOSE #1:OPEN #1,8,0,"D:RATDATA"
+800 FOR X=0 TO 21:FOR Y=0 TO 21:D=M(X,Y):PUT #1,D:NEXT Y:? "~~";21-X;:NEXT X:PRINT #1;LINE$:CLOSE #1
+810 ? :? :? "SAVED! Now, test it out!":? :? :? :GOTO 103
+850 ? :? :? :? :? "}†◊œ◊°† You've completed the maze!"
+855 ? "The evil Profesor Klystron has been":? "foiled!! (Arrgghh!)":? :? 
+860 ? "The friendly Doctor Zilman greets you":? "as you mutate from your rodent body."
+865 ? "He gives you $500 Wierd Bucks!"
+870 ? :? :? "Back to Finchleyland!"
+880 REM †Õ¡Ÿœ“ÆÆ†«ÈˆÂ†ÙËÂ†¬Ô˙Ô†§µ∞∞†
+881 REM †‚Â„·ıÛÂ†ËÂßÛ†˜ÔÓÆ†‘ËÂÓ∫
+882 REM †ÚÂÙıÚÓ†ËÈÌ†ÙÔ†∆ÈÓ„ËÏÂ˘Ï·Ó‰Æ†
+999 GOTO 999
+1000 ? "} RATS!":? :? 
+1010 ? "You are facing: ";:TRAP 1070
+1015 IF DIR=1 THEN ? "^ North"
+1016 IF DIR=2 THEN ? "> East"
+1017 IF DIR=3 THEN ? "v South"
+1018 IF DIR=4 THEN ? "< West"
+1020 ? :? "X,Y position in Maze: ";
+1022 ? X;",";Y
+1024 ? "            X,Y Goal: ";XGOAL;",";YGOAL:? 
+1026 IF XGOAL=X AND YGOAL=Y THEN 850
+1029 ? "Your View:"
+1030 FOR EE=1 TO 9:FOR FF=1 TO 10
+1031 C$=LINE$(EE*10-10+FF,EE*10-10+FF):IF C$<>"" AND C$<>"" AND C$<>"" AND C$<>"" AND C$<>"" AND C$<>"" THEN 1050
+1040 IF C$="" THEN ? "/";:NEXT FF:? :NEXT EE
+1041 IF C$="" THEN ? "_";:NEXT FF:? :NEXT EE
+1043 IF C$="" THEN ? "\";:NEXT FF:? :NEXT EE
+1044 IF C$="" THEN ? "|";:NEXT FF:? :NEXT EE
+1045 IF C$="" THEN ? "|";:NEXT FF:? :NEXT EE
+1046 IF C$="" THEN ? "-";:NEXT FF:? :NEXT EE
+1050 ? C$;:NEXT FF:? :NEXT EE
+1070 ? "Turn<L>eft, Turn<R>ight, Turn<A>round":? "Walk <F>orward, <Q>uit"
+1071 ? :? "Command: ";:GOSUB IN:? C$
+1072 IF C$="#" THEN 2000
+1080 IF C$<>"L" AND C$<>"R" AND C$<>"A" AND C$<>"F" AND C$<>"Q" THEN 1070
+1081 IF C$="Q" THEN END :REM †¬¡√À†‘œ†◊≈…“ƒ†√…‘Ÿ†
+1082 IF C$="R" THEN DIR=DIR+1:IF DIR=5 THEN DIR=1
+1083 IF C$="R" THEN 107
+1084 IF C$="L" THEN DIR=DIR-1:IF DIR=0 THEN DIR=4
+1085 IF C$="L" THEN 107
+1086 IF C$="A" THEN DIR=DIR+2:IF DIR>4 THEN DIR=DIR-4
+1087 IF C$="A" THEN 107
+1090 IF DIR=1 AND M(X,Y+1)=1 THEN Y=Y+1:GOTO 139
+1091 IF DIR=1 AND M(X,Y+1)=0 THEN ? "OUCH! You walk into a wall!˝":GOTO 1070
+1092 IF DIR=2 AND M(X+1,Y)=1 THEN X=X+1:GOTO 107
+1093 IF DIR=2 AND M(X+1,Y)=0 THEN ? "SPLAT! You walk into a wall!˝";:GOTO 1070
+1094 IF DIR=3 AND M(X,Y-1)=1 THEN Y=Y-1:GOTO 107
+1095 IF DIR=3 AND M(X,Y-1)=0 THEN ? "BASH! You walk into a wall!˝";:GOTO 1070
+1096 IF DIR=4 AND M(X-1,Y)=1 THEN X=X-1:GOTO 107
+1097 IF DIR=4 AND M(X-1,Y)=0 THEN ? "ARGH! You walk into a wall!˝";:GOTO 1070
+2000 ? "}":? :? :? "You have found a faded map of the maze!":? :? 
+2010 ? "LEGEND:   * Your Position"
+2011 ? "          X Known Path"
+2012 ? "          $ Exit"
+2013 ? "         [ ]Unknown??"
+2020 ? 
+2021 INFO$=C$:? "Hit a Key to read map...":GOSUB IN
+2025 FOR E=21 TO 0 STEP -1:FOR D=0 TO 21
+2026 TRAP 2050
+2027 IF D=X AND E=Y THEN ? "*";:NEXT D:? :NEXT E
+2028 IF D=XGOAL AND E=YGOAL THEN ? "$";:NEXT D:? :NEXT E
+2030 IF M(D,E)=0 THEN ? " ";:NEXT D:? :NEXT E
+2035 IF M(D,E)=1 THEN PP=INT(RND(1)*10)+1:IF INFO$="#" THEN PP=2
+2040 IF M(D,E)=1 AND PP<9 THEN ? "X";:NEXT D:? :NEXT E
+2045 IF M(D,E)=1 AND PP>8 THEN ? " ";:NEXT D:? :NEXT E
+2050 MAP=1:IF C$="#" THEN MAP=0
+2060 ? :? "Hit a key to continue...":GOSUB IN:GOTO 107
+4999 END 
+5000 D$="D:":D$(3,7)=F$:CLOSE #1:OPEN #1,4,0,D$
+5001 TRAP 5004
+5002 GET #1,C:IF CHR$(C)="}" THEN 5002
+5003 ? CHR$(C);:GOTO 5002
+5004 ? :RETURN 
+5005 CLOSE #1:OPEN #1,4,0,"K:":GET #1,C:C$=CHR$(C):RETURN 
+5008 INPUT #16,F$:RETURN 
+6000 IF F$="F1FR" THEN RESTORE 7001
+6001 IF F$="F1F" THEN RESTORE 7011
+6002 IF F$="F1FL" THEN RESTORE 7021
+6003 IF F$="F1L" THEN RESTORE 7031
+6004 IF F$="F1R" THEN RESTORE 7041
+6005 IF F$="F1N" THEN RESTORE 7051
+6006 IF F$="F1FLR" THEN RESTORE 7061
+6007 IF F$="F1LR" THEN RESTORE 7071
+6010 IF F$="F2FR" THEN RESTORE 8001
+6011 IF F$="F2F" THEN RESTORE 8011
+6012 IF F$="F2FL" THEN RESTORE 8021
+6013 IF F$="F2L" THEN RESTORE 8031
+6014 IF F$="F2R" THEN RESTORE 8041
+6015 IF F$="F2N" THEN RESTORE 8051
+6016 IF F$="F2FLR" THEN RESTORE 8061
+6017 IF F$="F2LR" THEN RESTORE 8071
+6020 IF F$="F3FR" THEN RESTORE 9001
+6021 IF F$="F3F" THEN RESTORE 9002
+6022 IF F$="F3FL" THEN RESTORE 9003
+6023 IF F$="F3L" THEN RESTORE 9004
+6024 IF F$="F3R" THEN RESTORE 9005
+6025 IF F$="F3N" THEN RESTORE 9006
+6026 IF F$="F3FLR" THEN RESTORE 9007
+6027 IF F$="F3LR" THEN RESTORE 9008
+6200 IF F$(1,2)="F1" THEN FOR Q=1 TO 10
+6201 IF F$(1,2)="F2" THEN FOR Q=3 TO 7
+6202 IF F$(1,2)="F3" THEN FOR Q=5 TO 5
+6205 READ INFO$:TRAP 6221
+6210 IF F$(1,2)="F1" THEN LINE$(Q*10-9,Q*10)=INFO$(2,LEN(INFO$)):NEXT Q:RETURN 
+6215 IF F$(1,2)="F2" THEN LINE$(Q*10-7,Q*10)=INFO$(2,LEN(INFO$)):NEXT Q:RETURN 
+6220 IF F$(1,2)="F3" THEN LINE$(Q*10-5,Q*10)=INFO$(2,3):NEXT Q:RETURN 
+6221 RETURN 
+7001 DATA "
+7002 DATA " 
+7003 DATA "       
+7004 DATA "       
+7005 DATA "       
+7006 DATA "       
+7007 DATA "       
+7008 DATA " 
+7009 DATA "
+7011 DATA "        
+7012 DATA "       
+7013 DATA "       
+7014 DATA "       
+7015 DATA "       
+7016 DATA "       
+7017 DATA "       
+7018 DATA "       
+7019 DATA "        
+7021 DATA "         
+7022 DATA "        
+7023 DATA "       
+7024 DATA "       
+7025 DATA "       
+7026 DATA "       
+7027 DATA "       
+7028 DATA "        
+7029 DATA "         
+7031 DATA "         
+7032 DATA "        
+7033 DATA "
+7034 DATA "        
+7035 DATA "        
+7036 DATA "        
+7037 DATA "
+7038 DATA "        
+7039 DATA "         
+7041 DATA "
+7042 DATA " 
+7043 DATA " 
+7044 DATA " 
+7045 DATA " 
+7046 DATA " 
+7047 DATA " 
+7048 DATA " 
+7049 DATA "
+7051 DATA "
+7052 DATA "        
+7053 DATA "        
+7054 DATA "        
+7055 DATA "        
+7056 DATA "        
+7057 DATA "        
+7058 DATA "        
+7059 DATA "
+7061 DATA "
+7062 DATA "
+7063 DATA "       
+7064 DATA "       
+7065 DATA "       
+7066 DATA "       
+7067 DATA "       
+7068 DATA "
+7069 DATA "
+7071 DATA "
+7072 DATA "
+7073 DATA " 
+7074 DATA "       
+7075 DATA "       
+7076 DATA "       
+7077 DATA " 
+7078 DATA "
+7079 DATA "
+8001 DATA "\
+8002 DATA " \
+8003 DATA "   
+8004 DATA " /
+8005 DATA "/
+8011 DATA "\    /
+8012 DATA " \  /
+8013 DATA "   
+8014 DATA " /  \
+8015 DATA "/    \
+8021 DATA "     /
+8022 DATA "    /
+8023 DATA "   
+8024 DATA "    \
+8025 DATA "     \
+8031 DATA "     /
+8032 DATA "____/
+8033 DATA "____
+8034 DATA "    \
+8035 DATA "     \
+8041 DATA "\
+8042 DATA " \____
+8043 DATA " ____
+8044 DATA " /
+8045 DATA "/
+8051 DATA "\____/
+8052 DATA "    
+8053 DATA "    
+8054 DATA "____
+8055 DATA "/    \
+8061 DATA "
+8062 DATA "
+8063 DATA "   
+8064 DATA "
+8065 DATA "
+8071 DATA "
+8072 DATA "  __
+8073 DATA " __
+8074 DATA "
+8075 DATA "
+9001 DATA ">|
+9002 DATA "><
+9003 DATA "|<
+9004 DATA "=<
+9005 DATA ">=
+9006 DATA "[]
+9007 DATA "''
+9008 DATA "==
